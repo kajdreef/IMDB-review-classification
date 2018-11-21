@@ -1,3 +1,8 @@
 # Resources
 
 https://medium.com/tensorist/classifying-yelp-reviews-using-nltk-and-scikit-learn-c58e71e962d9
+
+https://pdfs.semanticscholar.org/c521/80a8fe1acc99b4bf3cf3e11d3c8a38e2c7ff.pdf Sentiment analysis of IMDb movie
+reviews
+
+http://ai.stanford.edu/~amaas/papers/wvSent_acl2011.pdf paper provided with the project itself
