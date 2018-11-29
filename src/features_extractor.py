@@ -1,4 +1,8 @@
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
+
+from nltk import bigrams
+from nltk.corpus import stopwords
+
 from preprocessing import preprocess_reviews
 
 class Extractor:
@@ -20,18 +24,25 @@ def clean_text(Xtr, Xte):
     return preprocess_reviews(Xtr), preprocess_reviews(Xte)
 
 
-def extract_tf(Xtr, Xte):
-    """ Extract the TF from a string
-    args:
-        X: an array of strings
-    Returns:
-        Xtf: a matrix where the rows are the reviews and columns the tf for each feature.
-    """
-    cv = CountVectorizer(binary=True)
-    cv.fit(Xtr)
-    Xtr = cv.transform(Xtr)
-    Xte = cv.transform(Xte)
-    return Xtr, Xte
+def extract_tf(stop_words=None, ngram_range=(1,1)):
+    def extract(Xtr, Xte):
+        """ Extract the TF from a string
+        args:
+            X: an array of strings
+        Returns:
+            Xtf: a matrix where the rows are the reviews and columns the tf for each feature.
+        """
+        cv = CountVectorizer(
+            binary=True,
+            stop_words=stop_words,
+            ngram_range=ngram_range
+        
+        )
+        cv.fit(Xtr)
+        Xtr = cv.transform(Xtr)
+        Xte = cv.transform(Xte)
+        return Xtr, Xte
+    return extract
 
 
 def extract_tf_idf(Xtr, Xte):

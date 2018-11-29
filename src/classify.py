@@ -10,20 +10,17 @@ from sklearn import metrics
 class classifier:
     learner = None
 
-    def __init__(self, alg=None):
+    def __init__(self, alg=None, init={}):
         if alg == "random_forest":
-            self.learner = RandomForestClassifier()
+            self.learner = RandomForestClassifier(**init)
         elif alg == "logistic":
-            self.learner = LogisticRegression()
+            self.learner = LogisticRegression(**init)
         elif alg == "knn":
-            self.learner = KNeighborsClassifier()
+            self.learner = KNeighborsClassifier(**init)
         elif alg == "MLP":
-            self.learner = MLPClassifier()
-        # Bayes needs a dense matrix
-        # elif alg == "bayes":
-        #     self.learner = GaussianNB()
+            self.learner = MLPClassifier(**init)
         elif alg == "kmeans":
-            self.learner = KMeans(2, init='k-means++', random_state=0)
+            self.learner = KMeans(**init)
         else:
             raise("Classifier not yet implemented")
 
