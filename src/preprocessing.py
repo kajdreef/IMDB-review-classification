@@ -9,7 +9,7 @@ __REPLACE_WITH_SPACE = re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
 def __preprocess_review(review):
     review = __REPLACE_NO_SPACE.sub("", str(review))
     review = __REPLACE_WITH_SPACE.sub(" ", str(review))
-    # review = __stemming(review)
+    review = __stemming(review)
     return review
 
 def preprocess_reviews(reviews):
@@ -18,11 +18,11 @@ def preprocess_reviews(reviews):
 
 def __stemming(review):
     """
-    Takes a word and returns the Stem of the word. (Considerably reduces the number of features, but also the performance)
+    Takes a word and returns the Stem of the word.
     """
     stemmer = PorterStemmer()
     stemmed_words = []
     for word in review.split(' '):
         stemmed_words.append(stemmer.stem(word))
 
-    return ''.join(stemmed_words)
+    return ' '.join(stemmed_words)

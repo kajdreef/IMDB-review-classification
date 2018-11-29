@@ -46,14 +46,15 @@ if __name__ == '__main__':
     print("Extract features...")
     
     stop_words = set(stopwords.words('english'))
-    ngram_range = (2,2) # bigrams
+    ngram_range = (1,3) # bigrams
+    min_df = 0.0005
 
     Xtr, Xte = Extractor(Xtr_text, Xte_text)\
         .bind(clean_text)\
-        .bind(extract_tf(stop_words=stop_words, ngram_range=(1, 1)))\
+        .bind(extract_tf(stop_words=stop_words, ngram_range=ngram_range, min_df=min_df))\
         .bind(extract_tf_idf)\
         .get_features()
-    
+
     print("Xtr shape: {}".format(Xtr.shape))
     print("Xte shape: {}".format(Xte.shape))
     print("Done extracting features!")
