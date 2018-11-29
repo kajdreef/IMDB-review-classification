@@ -6,6 +6,15 @@ from features_extractor import Extractor, clean_text, extract_tf, extract_tf_idf
 
 from classify import classifier, compute_auc
 
+def run_classifier(name, Xtr, Ytr, Xte, Yte):
+    print("Start classification...")
+    learner = classifier(name)
+    learner.train(Xtr, Ytr)
+
+    Yte_hat = learner.predict(Xte)
+    print("{} - AUC: {}".format(name, compute_auc(Yte, Yte_hat)))
+    print("Done!")
+
 if __name__ == '__main__':
     print("Classify IMDB data")
     
@@ -35,11 +44,9 @@ if __name__ == '__main__':
     print("Xte shape: {}".format(Xte.shape))
     print("Done extracting features!")
 
-    # classify
-    print("Start classification...")
-    learner = classifier("random_forest")
-    learner.train(Xtr, Ytr)
-    
-    Yte_hat = learner.predict(Xte)
-    print("AUC: {}".format(compute_auc(Yte, Yte_hat)))
-    print("Done!")
+    # Run different Classifiers and determine the AUC (Bayes has been left out for now)
+    run_classifier("random_forest", Xtr, Ytr, Xte, Yte)
+    run_classifier("logistic", Xtr, Ytr, Xte, Yte)
+    run_classifier("MLP", Xtr, Ytr, Xte, Yte)
+    run_classifier("kmeans", Xtr, Ytr, Xte, Yte)
+    run_classifier("knn", Xtr, Ytr, Xte, Yte)
