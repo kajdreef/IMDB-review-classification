@@ -5,7 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cluster import KMeans
 from sklearn.neural_network import MLPClassifier
 from sklearn import metrics
-
+from sklearn.linear_model import SGDClassifier
 
 class classifier:
     learner = None
@@ -21,6 +21,8 @@ class classifier:
             self.learner = MLPClassifier(**init)
         elif alg == "kmeans":
             self.learner = KMeans(**init)
+        elif alg == "linear_svm_sgd":
+            self.learner = SGDClassifier(loss='hinge', penalty='l1')
         else:
             raise("Classifier not yet implemented")
 
@@ -30,6 +32,7 @@ class classifier:
     def predict(self, Xte):
         Yhat = self.learner.predict(Xte)
         return Yhat
+
 
 def compute_auc(Y, Yhat):
     fp, tp, _ = metrics.roc_curve(Y, Yhat)

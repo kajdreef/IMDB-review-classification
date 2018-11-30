@@ -1,8 +1,6 @@
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
-
-from nltk.corpus import stopwords
-
-from preprocessing import preprocess_reviews
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import numpy as np
 
 class Extractor:
     """ Just and helper class to make pipelining the extractors nicer looking
@@ -19,11 +17,7 @@ class Extractor:
     def get_features(self):
         return self._xtr, self._xte
 
-def clean_text(Xtr, Xte):
-    return preprocess_reviews(Xtr), preprocess_reviews(Xte)
-
-
-def extract_tf(stop_words=None, ngram_range=(1, 1), min_df=None):
+def extract_tf(ngram_range=(1, 1), min_df=None):
     def extract(Xtr, Xte):
         """ Extract the TF from a string
         args:
@@ -33,7 +27,6 @@ def extract_tf(stop_words=None, ngram_range=(1, 1), min_df=None):
         """
         cv = CountVectorizer(
             binary=True,
-            stop_words=stop_words,
             ngram_range=ngram_range,
             min_df=min_df
         )
@@ -57,3 +50,20 @@ def extract_tf_idf(Xtr, Xte):
     Xte = tf_transformer.transform(Xte)
     return Xtr, Xte
 
+
+def extract_sentiment(Xtr, Xte):
+    s_analyszer = SentimentIntensityAnalyzer()
+    review_sentiment_tr = []
+    review_sentiment_te = []
+
+    for r in Xtr:
+        ss = s_analyszer.polarity_scores(r)
+        review_sentiment_tr.append(
+            [ss['neg'], ss['neu'], ss['pos'], ss['compound']])
+
+    for r in Xte:
+        ss = s_analyszer.polarity_scores(r)
+        review_sentiment_te.append(
+            [ss['neg'], ss['neu'], ss['pos'], ss['compound']])
+
+    return [np.asarray(review_sentiment_tr), np.asarray(review_sentiment_te)]
