@@ -3,13 +3,16 @@
 ## Requirements
 
 + Python 3
-+ Numpy (pip3 install numpy)
-+ Sklearn (pip3 install sklearn)
-+ matplotlib (pip3 install matplotlib)
-+ nltk (pip3 install nltk)
++ Numpy
++ Sklearn
++ nltk
 
-`pip3 install numpy sklearn matplotlib nltk`
+Run the following commands from the root folder:
 
+```sh
+pip3 install -r requirements.txt
+python3 setup.py
+```
 
 ## Running program
 
