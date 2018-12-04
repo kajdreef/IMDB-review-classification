@@ -1,6 +1,11 @@
 .ipynb_checkpoints/
 aclImdb/
 __pycache__
+*.ipynb
+
+# Ignore feature data files
+*.npz
+*.target
 
 # Ignore latex files
 *.aux

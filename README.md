@@ -22,7 +22,11 @@ That results in an AUC of 0.89.
 The program can be run using the following command from the command line:
 `python3 src/main.py`
 
-The Jupyter notebook is out of date, and I am currently only using to run small tests.
+After the initial run the features will be stored in the data folder. After that we can rerun the program with the following flag:
+
+`python3 src/main.py --no-new-features`
+
+This will not recompute the features, giving us the option to optimize the classification part without having to recompute the features each time.
 
 ## Preprocessing
 - Clean text
@@ -42,6 +46,7 @@ Logistic regression, SVM, and MLP showed best performance, but other classfiers 
 
 - Logistic
 - SVM using SGD for training (performs similar to Logistic)
+- Linear SVM SGD
 - Random Forest
 - kmeans
 - knn

@@ -1,11 +1,12 @@
 import os
 import numpy as np
+import argparse
 
 from data_loader import load_vocab_dict, load_train_data, load_test_data
 from nltk.corpus import stopwords
 from pprint import pprint
 
-from util import curry, output_to_csv
+from util import curry, output_to_csv, output_features_to_file, load_features_from_file
 from preprocessing import clean_text, remove_stop_words, negate_handling, lemmatizing
 from features_extractor import Extractor, extract_tf, extract_tf_idf, extract_sentiment
 from classify import classifier, compute_auc
@@ -67,15 +68,19 @@ if __name__ == '__main__':
         print("IMDB data set is missing")
         exit(-1)
     
+    # Command line argument parser options
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--no-new-features", action='store_true', default=False, help="Assumes features have already been extracted, so it will skip the feature extracing step.")
+    args = parser.parse_args()
+    
     #--------------------- Parameters----------------------------
-    stop_words = set(stopwords.words('english'))
     ngram_range = (1, 3)  # bigrams
     min_df = 0.0005
     
     auc_out = []
     classifiers_config = [
         ("Random Forest", {}),
-        ("logistic", {}),
+        ("Logistic", {}),
         ("Linear SVM SGD", {}),
         ("Logistic SGD", {}),
         ("KMeans", {
@@ -84,12 +89,18 @@ if __name__ == '__main__':
         ("MLP", {})
     ]
     #------------------------------------------------------------
-    Xtr_text, Ytr, Xte_text, Yte = load_data()
+    Xtr, Ytr, Xte, Yte = None, None, None, None
 
-    Xtr, Xte =  extract_features(Xtr_text, Xte_text,
-                    ngram_range=ngram_range,
-                    min_df=min_df
-                )
+    if args.no_new_features == False:
+        Xtr_text, Ytr, Xte_text, Yte = load_data()
+
+        Xtr, Xte =  extract_features(Xtr_text, Xte_text,
+                        ngram_range=ngram_range,
+                        min_df=min_df
+                    )
+        output_features_to_file(Xtr, Ytr, Xte, Yte)
+    else: 
+        Xtr, Ytr, Xte, Yte = load_features_from_file()
 
     # Run different Classifiers and determine the AUC 
     print("Start running the different classifiers...")
