@@ -18,6 +18,13 @@ class Extractor:
         return self._xtr, self._xte
 
 def extract_tf(ngram_range=(1, 1), min_df=None):
+    """
+        arg:
+            ngram_range: The lower and upper boundary of the range of n-values for different n-grams to be extracted
+            min_df:  ignore terms that have a document frequency strictly lower than the given threshold
+        Returns:
+            extract(Xtr, Xte): A function to extract the TF from an array of strings
+    """
     def extract(Xtr, Xte):
         """ Extract the TF from a string
         args:

@@ -7,22 +7,26 @@ from sklearn.neural_network import MLPClassifier
 from sklearn import metrics
 from sklearn.linear_model import SGDClassifier
 
+from sklearn.model_selection import train_test_split
+
 class classifier:
     learner = None
 
     def __init__(self, alg=None, init={}):
-        if alg == "random_forest":
+        if alg == "Random Forest":
             self.learner = RandomForestClassifier(**init)
-        elif alg == "logistic":
+        elif alg == "Logistic":
             self.learner = LogisticRegression(**init)
-        elif alg == "knn":
+        elif alg == "kNN":
             self.learner = KNeighborsClassifier(**init)
         elif alg == "MLP":
             self.learner = MLPClassifier(**init)
-        elif alg == "kmeans":
+        elif alg == "KMeans":
             self.learner = KMeans(**init)
-        elif alg == "linear_svm_sgd":
+        elif alg == "Linear SVM SGD":
             self.learner = SGDClassifier(loss='hinge', penalty='l1')
+        elif alg == "Logistic SGD":
+            self.learner = SGDClassifier(loss='log', penalty='l1')
         else:
             raise("Classifier not yet implemented")
 

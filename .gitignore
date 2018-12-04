@@ -1,3 +1,12 @@
 .ipynb_checkpoints/
 aclImdb/
 __pycache__
+
+# Ignore latex files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.log
+*.toc
+*.pdf
