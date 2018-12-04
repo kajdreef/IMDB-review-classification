@@ -6,7 +6,7 @@ from data_loader import load_vocab_dict, load_train_data, load_test_data
 from pprint import pprint
 
 from util import curry, output_to_csv, output_features_to_file, load_features_from_file
-from preprocessing import clean_text, remove_stop_words, negate_handling, lemmatizing
+from preprocessing import clean_text, remove_stop_words, negation_handling, lemmatizing, emoji_tagging
 from features_extractor import Extractor, extract_tf, extract_tf_idf, extract_sentiment
 from classify import classifier, compute_auc
  
@@ -32,10 +32,12 @@ def extract_features(Xtr_text, Xte_text, stop_words=None, ngram_range=(1, 1), mi
     print("Obtaining classic data...")
     # Connect the preprocessing functions
     extractor = Extractor(Xtr_text, Xte_text)\
-        .bind(curry(negate_handling))\
+        .bind(curry(emoji_tagging))\
         .bind(curry(remove_stop_words))\
-        .bind(curry(clean_text))\
-        .bind(curry(lemmatizing))
+        .bind(curry(lemmatizing))\
+        .bind(curry(negation_handling))\
+        .bind(curry(clean_text))
+        
 
     # Add the feature extractor functions
     extractor\
@@ -75,12 +77,13 @@ if __name__ == '__main__':
     #--------------------- Parameters----------------------------
     ngram_range = (1, 3)  # bigrams
     min_df = 0.0005
+    # min_df = 2 # TF > 1
     
     auc_out = []
     classifiers_config = [
-        ("Random Forest", {}),
-        ("Logistic", {}),
-        ("Linear SVM SGD", {}),
+        ("Random Forest", {'n_estimators':100}),
+        ("Logistic", {'solver':'lbfgs'}),
+        ("Linear SVM SGD", {'max_iter': 1000, 'tol': 1e-3}),
         ("Logistic SGD", {}),
         ("KMeans", {
             'n_clusters': 2, 'init': 'k-means++', 'random_state': 0}),

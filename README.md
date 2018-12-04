@@ -31,7 +31,7 @@ This will not recompute the features, giving us the option to optimize the class
 ## Preprocessing
 - Clean text
 - Remove stop words
-- negation handling
+- negation handling (Still need work, Clean text and negation handling are giving problems together &_NEG can occur and clean text removes &)
 - lemmatizing
 - stemming (Not used in favor for lemmatizing)
 
