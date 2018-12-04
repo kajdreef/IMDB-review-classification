@@ -6,9 +6,10 @@ from nltk.sentiment import SentimentAnalyzer
 from nltk.sentiment.util import mark_negation
 from nltk import sent_tokenize, word_tokenize
 
-# copied from: https://towardsdatascience.com/sentiment-analysis-with-python-part-1-5ce197074184
-__REPLACE_NO_SPACE = re.compile("(\.)|(\;)|(\:)|(\!)|(\')|(\?)|(\,)|(\")|(\()|(\))|(\[)|(\])")
-__REPLACE_WITH_SPACE = re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
+# Inspired, but changed for regular expressions (https://towardsdatascience.com/sentiment-analysis-with-python-part-1-5ce197074184)
+# Remove single characters (a-z)
+__REPLACE_NO_SPACE = re.compile(r'(\.)|(\;)|(\:)|(\!)|(\')|(\?)|(\,)|(\")|(\`)||(\()|(\))|(\[)|(\])|(\*)|(\')')
+__REPLACE_WITH_SPACE = re.compile(r'<\s*br[^>]*>|(\-)|(\/)|(^| )[a-z]( |$)|(^| )[0-9]+( |$)')
 
 def clean_text(review):
     ## Remove random puncuation
@@ -18,6 +19,9 @@ def clean_text(review):
 
 def remove_stop_words(review):
     stop_words = set(stopwords.words('english'))
+    stop_words.remove("not")
+    stop_words.add("the")
+    stop_words.add("it")
     out = []
 
     # Split review up in sentences
@@ -46,7 +50,8 @@ def negate_handling(review):
     for sentence in sent_tokenize(review):
         tokens = word_tokenize(sentence)
         tokens = ['.' if t == ',' else t for t in tokens]
-        out.append(" ".join(mark_negation(tokens, double_neg_flip=True)))
+        tokens_neg = mark_negation(tokens, double_neg_flip=True)
+        out.append(" ".join(tokens_neg))
 
     return " ".join(out)
 

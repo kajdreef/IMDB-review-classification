@@ -3,7 +3,6 @@ import numpy as np
 import argparse
 
 from data_loader import load_vocab_dict, load_train_data, load_test_data
-from nltk.corpus import stopwords
 from pprint import pprint
 
 from util import curry, output_to_csv, output_features_to_file, load_features_from_file
@@ -33,8 +32,8 @@ def extract_features(Xtr_text, Xte_text, stop_words=None, ngram_range=(1, 1), mi
     print("Obtaining classic data...")
     # Connect the preprocessing functions
     extractor = Extractor(Xtr_text, Xte_text)\
-        .bind(curry(remove_stop_words))\
         .bind(curry(negate_handling))\
+        .bind(curry(remove_stop_words))\
         .bind(curry(clean_text))\
         .bind(curry(lemmatizing))
 
@@ -72,7 +71,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--no-new-features", action='store_true', default=False, help="Assumes features have already been extracted, so it will skip the feature extracing step.")
     args = parser.parse_args()
-    
+
     #--------------------- Parameters----------------------------
     ngram_range = (1, 3)  # bigrams
     min_df = 0.0005
