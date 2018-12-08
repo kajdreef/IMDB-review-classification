@@ -1,0 +1,93 @@
+%!TEX root = paper.tex
+
+%following two lines added to supress/fix the following error - amsthm.sty:444: LaTeX Error: Command \proof already defined.
+\let\proof\relax
+\let\endproof\relax
+
+%following five lines added to supress/fix the following errors -
+%algorithm2e.sty:1616: Too many }'s. [    }]
+%algorithm2e.sty:1617: Extra \fi. [\fi]
+
+\makeatletter
+\newif\if@restonecol
+\makeatother
+\let\algorithm\relax
+\let\endalgorithm\relax
+
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage{color}
+% \usepackage[colorlinks=true,pdfpagelabels=false,bookmarks=false]{hyperref}
+% \usepackage{cite}
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{flushend}
+\usepackage{multirow}
+\usepackage{xspace}
+%\usepackage{algorithmic}
+% \usepackage{algorithm,algpseudocode}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{subfig}
+\usepackage{expdlist}
+%\usepackage{natbib}
+\usepackage{tabulary}
+\usepackage{framed}
+%\usepackage{subfigure}
+\usepackage{epstopdf}
+\usepackage{colortbl}
+
+\usepackage{amsmath}
+\usepackage{xifthen}
+
+\usepackage{makecell}
+
+\usepackage{siunitx}
+
+%% SIUNITS SETUP
+\sisetup{
+    output-decimal-marker = {.},
+    group-separator = {,},
+    range-units = brackets
+}
+
+
+\newcommand{\ie}{\textit{i.e.,}\xspace}
+\newcommand{\eg}{\textit{e.g.,}\xspace}
+\newcommand{\etal}{\textit{et al.}\xspace}
+\newcommand{\nb}{\textit{N.B.,}\xspace}
+\newcommand{\mysubsection}[1]{\vspace{1.25mm}\noindent\textit{\textbf{#1.}}}
+\newcommand{\mysubsubsection}[1]{\vspace{1.25mm}\noindent\textit{#1.}}
+
+% Set author comment colors
+\definecolor{grayblue}{rgb}{0.2,0.29,0.79}
+\definecolor{darkgreen}{rgb}{0.2,0.55,0.1}
+\definecolor{violet}{rgb}{0.54,0.17,0.88}
+
+\newcommand{\kaj}[1]
+{
+   {\noindent\color{darkgreen}\bf [#1]$_{\scriptscriptstyle\textit{kaj}}$}
+}
+
+
+% Allow author comments to be turned off
+\newcommand{\includeAuthorComments}[1]
+{
+   \ifthenelse{\equal{#1}{0}}
+   {
+
+      \renewcommand{\kaj}[1]
+      {
+         {} % empty definition
+      }
+   }{}
+}
+
+
+%%%%makes a page be able to be filled with more figures
+\renewcommand{\topfraction}{1.0}
+\renewcommand{\bottomfraction}{1.0}
+\renewcommand{\textfraction}{0}
+\addtolength{\itemsep}{0pt}

@@ -1,5 +1,8 @@
-\documentclass[letterpaper,oneside]{article}
+\documentclass[letterpaper,oneside, twocolumn]{article}
 
+\usepackage{lipsum}
+\input{macros}
+\input{config}
 
 \pagestyle{plain}
 \pagenumbering{arabic}
@@ -11,10 +14,6 @@
 \date{\today}
 
 \maketitle
-\thispagestyle{empty}
-\tableofcontents
-\clearpage
-\setcounter{page}{1}
 
 \input{source/problem_description}
 \input{source/preprocessing}
