@@ -1,6 +1,11 @@
-from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import numpy as np
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import Normalizer
 
 class Extractor:
     """ Just and helper class to make pipelining the extractors nicer looking
@@ -17,7 +22,8 @@ class Extractor:
     def get_features(self):
         return self._xtr, self._xte
 
-def extract_tf(ngram_range=(1, 1), min_df=None):
+
+def extract_tf(ngram_range=(1, 1), min_df=0, max_df=1.0, max_features=None):
     """
         arg:
             ngram_range: The lower and upper boundary of the range of n-values for different n-grams to be extracted
@@ -35,7 +41,9 @@ def extract_tf(ngram_range=(1, 1), min_df=None):
         cv = CountVectorizer(
             binary=True,
             ngram_range=ngram_range,
-            min_df=min_df
+            min_df=min_df,
+            max_df=max_df,
+            max_features=max_features
         )
         cv.fit(Xtr)
         Xtr = cv.transform(Xtr)
@@ -57,6 +65,22 @@ def extract_tf_idf(Xtr, Xte):
     Xte = tf_transformer.transform(Xte)
     return Xtr, Xte
 
+
+def extract_lsa(n_components):
+    """ Take the tf_idf matrix as input and sizes it down using 
+
+    """
+    def __lsa(Xtr, Xte):
+        svd = TruncatedSVD(n_components)
+        lsa = make_pipeline(svd, Normalizer(copy=False))
+
+        lsa.fit(Xtr)
+        Xtr_lsa = lsa.transform(Xtr)
+        Xte_lsa = lsa.transform(Xte)
+    
+        return Xtr_lsa, Xte_lsa
+    
+    return __lsa
 
 def extract_sentiment(Xtr, Xte):
     s_analyszer = SentimentIntensityAnalyzer()

@@ -36,6 +36,9 @@ class classifier:
     def predict(self, Xte):
         Yhat = self.learner.predict(Xte)
         return Yhat
+    
+    def get_learner(self):
+        return self.learner
 
 
 def compute_auc(Y, Yhat):
