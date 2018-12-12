@@ -4,7 +4,7 @@ import argparse
 
 from data_loader import load_vocab_dict, load_train_data, load_test_data
 from pprint import pprint
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, precision_score, recall_score
 from util import curry, output_to_csv, output_features_to_file, load_features_from_file
 from preprocessing import clean_text, remove_stop_words, negation_handling, lemmatizing, emoji_tagging
 from features_extractor import Extractor, extract_tf, extract_tf_idf, extract_sentiment, extract_lsa
@@ -66,12 +66,16 @@ def run_classifier(name, Xtr, Ytr, Xte, Yte, init={}):
     mean_cv_score = np.mean(score['test_score'])
     auc = compute_auc(Yte, Yte_hat)
     f1 = f1_score(Yte, Yte_hat)
+    precision = precision_score(Yte, Yte_hat)
+    recall = recall_score(Yte, Yte_hat)
 
     print("{} - Mean 10-fold CV: {}".format(name, mean_cv_score))
+    print("{} - precision: {}".format(name, precision))
+    print("{} - recall: {}".format(name, recall))
     print("{} - f1-score: {}".format(name, f1))
     print("{} - AUC: {}".format(name, auc))
 
-    return [name, auc, mean_cv_score, f1]
+    return [name, auc, mean_cv_score, f1, precision, recall]
 
 if __name__ == '__main__':
     print("Classify IMDB data")
@@ -99,7 +103,7 @@ if __name__ == '__main__':
         ("Linear SVM SGD", {'max_iter': 1000, 'tol': 1e-3}),
         ("Logistic SGD", {}),
         # ("KMeans", {
-            # 'n_clusters': 2, 'init': 'k-means++', 'random_state': 0}),
+        #     'n_clusters': 2, 'init': 'k-means++', 'random_state': 0}),
         ("kNN", {}),
         ("MLP", {})
     ]
@@ -127,5 +131,5 @@ if __name__ == '__main__':
     
     output_csv_loc = "./data/classifier_auc.csv"
     print("Output the results to: {}".format(output_csv_loc))
-    head = ["Classifier", "AUC", "Mean 10-fold CV", "F1-score"]
+    head = ["Classifier", "AUC", "Mean 10-fold CV", "F1-score", "Precision", "Recall"]
     output_to_csv(output_csv_loc, head, auc_out)
