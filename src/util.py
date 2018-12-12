@@ -43,6 +43,6 @@ def load_features_from_file(input_path='./data/'):
     Ytr = loadtxt('{}/training.target'.format(input_path), dtype=int)
     Yte = loadtxt('{}/test.target'.format(input_path), dtype=int)
     
-    print("Xtr.shape: {}", Xtr.shape)
-    print("Xte.shape: {}", Xte.shape)
+    print("Xtr.shape: {}".format(Xtr.shape))
+    print("Xte.shape: {}".format(Xte.shape))
     return Xtr, Ytr, Xte, Yte
