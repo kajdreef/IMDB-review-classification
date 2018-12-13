@@ -7,7 +7,8 @@ from pprint import pprint
 from sklearn.metrics import f1_score, precision_score, recall_score
 from util import curry, output_to_csv, output_features_to_file, load_features_from_file
 from preprocessing import clean_text, remove_stop_words, negation_handling, lemmatizing, emoji_tagging
-from features_extractor import Extractor, extract_tf, extract_tf_idf, extract_sentiment, extract_lsa
+from features_extractor import Extractor, extract_tf, extract_tf_idf, extract_sentiment
+from feature_selection import k_best
 from classify import classifier, compute_auc
 from cross_validation import cross_validation
  
@@ -42,9 +43,9 @@ def extract_features(Xtr_text, Xte_text, stop_words=None, ngram_range=(1, 1), mi
 
     # Add the feature extractor functions
     extractor\
-        .bind(extract_tf(ngram_range=ngram_range, min_df=min_df, max_df=max_df, max_features=None))\
+        .bind(extract_tf(ngram_range=ngram_range, min_df=min_df, max_df=max_df))\
         .bind(extract_tf_idf)\
-        .bind(extract_lsa(1000))
+        .bind(k_best(Ytr, Yte, max_features))
 
     # Extract the features
     Xtr, Xte = extractor.get_features()
@@ -90,8 +91,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     #--------------------- Parameters----------------------------
-    ngram_range = (1, 3)  # bigrams
-    # min_df = 0.0005
+    ngram_range = (1, 1)  # unigrams
     min_df = 2 # Filter words out that only occur in one document
     max_df = 0.5 # filter all words out that occur in more than half the documents
     n_features = 10000 # Max number of features
@@ -104,7 +104,7 @@ if __name__ == '__main__':
         ("Logistic SGD", {}),
         # ("KMeans", {
         #     'n_clusters': 2, 'init': 'k-means++', 'random_state': 0}),
-        ("kNN", {}),
+        # ("kNN", {}),
         ("MLP", {})
     ]
     #------------------------------------------------------------
