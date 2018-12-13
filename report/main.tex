@@ -1,6 +1,7 @@
 \documentclass[letterpaper,oneside, twocolumn]{article}
 
 \usepackage{lipsum}
+\usepackage{csvsimple}
 \input{macros}
 \input{config}
 
@@ -16,11 +17,14 @@
 \maketitle
 
 \input{source/problem_description}
+\input{source/data_exploration}
 \input{source/preprocessing}
 \input{source/features}
 \input{source/classifier}
 \input{source/evaluation}
 \input{source/conclusion}
-\newpage
+
+\bibliographystyle{abbrv}
+\bibliography{main}
 
 \end{document}
