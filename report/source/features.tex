@@ -1,27 +1,14 @@
 \section{Features}
-\subsection{Pipeline}
-
-\begin{figure}[h]
-    \setlength{\unitlength}{0.14in}
-    \centering
-    \begin{picture}(20,10)
-    \put(2,4){\framebox(5,3){\footnotesize{TF}}}
-    \put(8,4){\framebox(5,3){\footnotesize{TF-IDF}}}
-    \put(14,4){\framebox(5,3){\footnotesize{KBest}}}
-    \put(1,1.5){\framebox(19,8){}}
-    
-    \put(0,5.5){\vector(1,0){2}}
-    \put(7,5.5){\vector(1,0){1}}
-    \put(19,5.5){\vector(1,0){2}}
-    
-    \end{picture}
-    \caption{Pipeline for the Feature Selection}
-    \label{fig:feature-selection}
-\end{figure}
 
 \subsection{Term Frequency}
 
-\kaj{Talk about ngrams and show graphs of the comparison of different levels}
+When classifying text files a logical first feature to take a look at is Term-Frequency (TF).
+TF just counts for each token the number of time it appears in the text file.
+However, there are different ways to approach this. 
+Instead of using a single word as a token it is possible to take any number of words that appear sequentially  as a feature, this is called an n-gram.
+
+We explored at different number of n-gram options to determine what gave the best results, see Figure~\ref{fig:ngram}.
+Interestingly a unigram (1-gram) gave the best resutls when using an out-of-the-box logistic regressor. 
 
 \begin{figure*}[ht!]
     \centering
@@ -47,9 +34,9 @@
 
 When the three different set of features are compared we can see clearly that TF-IDF is performing best out of the three, closely followed by TF, and on a distance Sentiment analysis using VADER.
 
-\begin{table}
+\begin{table}[h]
     \centering
-    \caption{Results for different features\label{tab:features-comp}}
+    \caption{Results for different features using an out-of-the-box logistic regressor\label{tab:features-comp}}
     \begin{tabular}{ l| S[table-format=1.3] |S[table-format=1.3] |S[table-format=1.3] }
     \hline
         \bf{Feature} & \bf{F1-measure} & \bf{Precision} & \bf{Recall} \\
@@ -60,3 +47,23 @@ When the three different set of features are compared we can see clearly that TF
         \hline
     \end{tabular}
 \end{table}
+
+\mysubsection{Pipeline}
+
+\begin{figure}[ht]
+    \setlength{\unitlength}{0.14in}
+    \centering
+    \begin{picture}(20,10)
+    \put(2,4){\framebox(5,3){\footnotesize{TF}}}
+    \put(8,4){\framebox(5,3){\footnotesize{TF-IDF}}}
+    \put(14,4){\framebox(5,3){\footnotesize{KBest}}}
+    \put(1,1.5){\framebox(19,8){}}
+    
+    \put(0,5.5){\vector(1,0){2}}
+    \put(7,5.5){\vector(1,0){1}}
+    \put(19,5.5){\vector(1,0){2}}
+    
+    \end{picture}
+    \caption{Pipeline for the Feature Selection}
+    \label{fig:feature-selection}
+\end{figure}

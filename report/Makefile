@@ -9,11 +9,11 @@ ${PAPER}.pdf: $(shell ls source/*.tex *.tex *.bib)
 	bibtex ${PAPER}
 	pdflatex ${PAPER}
 	pdflatex ${PAPER}
-	rm $(PAPER)-embed.pdf *.bbl *.blg *.dvi *.fls *.log *.tex~ *.tex.backup *.bib~ *.bak *.sav || echo none
+	rm $(PAPER)-embed.pdf *.bbl *.blg *.dvi *.fls *.log *.tex~ *.tex.backup *.bib~ *.bak *.sav *.aux || echo none
 
 
 clean:
-	rm ${PAPER}.pdf ${PAPER}-embed.pdf *.aux *.bbl *.blg *.dvi *.fls *.log *.tex~ *.tex.backup *.bib~ *.bak *.sav || echo none
+	rm ${PAPER}.pdf ${PAPER}-embed.pdf *.blg *.dvi *.fls *.log *.tex~ *.tex.backup *.bib~ *.bak *.sav || echo none
 
 open:
 	open ${PAPER}.pdf
