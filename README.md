@@ -1,4 +1,4 @@
-# CS273A-IMDB-review-classification
+# IMDB-review-classification
 
 ## Requirements
 
@@ -31,18 +31,19 @@ This will not recompute the features, giving us the option to optimize the class
 ## Preprocessing
 - Clean text
 - Remove stop words
-- negation handling (Still need work, Clean text and negation handling are giving problems together &_NEG can occur and clean text removes &)
+- negation handling
 - lemmatizing
 - stemming (Not used in favor for lemmatizing)
 
 ## Features
+- TF
 - TF-IDF
 - Extract sentiment using VADER*
 
 (*TF-IDF showed better performance so far)
 
 ## Classifiers
-Logistic regression, SVM, and MLP showed best performance, but other classfiers are available as well:
+Ensembles, Logistic regression, SVM, and MLP showed best performance, but other classfiers are available as well:
 
 - Logistic
 - SVM using SGD for training (performs similar to Logistic)
@@ -51,3 +52,4 @@ Logistic regression, SVM, and MLP showed best performance, but other classfiers 
 - kmeans
 - knn
 - MLP
+- Ensembles (Best performance)
