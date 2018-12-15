@@ -1,16 +1,26 @@
 \section{Evaluation}
 
+In Table~\ref{tab:classifier-comp}, we compare different classifiers using 5 metrics. The metrics are as following:
+\begin{enumerate}
+    \item \textbf{AUC}: Area under Curve, gives an idea how well a classifier is performing; 0.5 is the same as random guessing. (Range 0-1)
+    \item \textbf{Mean AUC 10-fold CV}:
+    \item \textbf{F1-score}:
+    \item \textbf{Precision}:
+    \item \textbf{Recall}:
+\end{enumerate}
+
 \begin{table*}
     \centering
     \caption{Results different classfiers\label{tab:classifier-comp}}
     \begin{tabular}{l | S[table-format=1.3] | S[table-format=1.3] | S[table-format=1.3] | S[table-format=1.3] | S[table-format=1.3]}
     \hline
-    Classifier & {AUC} & {Mean 10-fold CV} & {F1-score} & {Precision} & {Recall} \\
+    Classifier & {AUC} & {Mean AUC 10-fold CV} & {F1-score} & {Precision} & {Recall} \\
     \hline
     Random Forest & 0.84996 & 0.84788 & 0.8473776294909874 & 0.8622174381054898 & 0.83304 \\
     Logistic & 0.8852800000000001 & 0.8947200000000001 & 0.8856641683941956 & 0.8827082008900191 & 0.88864 \\
     Linear SVM SGD & 0.8715999999999999 & 0.87144 & 0.8733527972855678 & 0.8615911567803207 & 0.88544 \\
     Logistic SGD & 0.85904 & 0.8581199999999999 & 0.8609971599873777 & 0.8492063492063492 & 0.87312 \\
+    kNN & 0.57428 & 0.5864800000000001 & 0.6197162968521099 & 0.5599535093949765 & 0.69376 \\
     MLP & 0.8210000000000001 & 0.87468 & 0.8159874994859987 & 0.8394957272188849 & 0.79376 \\
     \hline
     \end{tabular}
