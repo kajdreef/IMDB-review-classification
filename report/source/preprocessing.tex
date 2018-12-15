@@ -2,17 +2,60 @@
 
 \section{Text Preprocessing}
 
-\subsection{Pipeline}
+The review dataset provides the raw text scraped from IMDB, meaning we still have to extract our features from the text.
+In Figure~\ref{fig:preprocessing} we present our preprocessing steps.
+The input is a list of raw text files.
+The output is also a list of raw text files, however, it has been modified by each step in the process.
+Next we will go more indepth on each of the preprocessing steps that were applied on the raw text.
 
-\kaj{highlevel description of what we did}
+\begin{figure*}[ht!]
+\setlength{\unitlength}{0.14in}
+\centering
+\begin{picture}(33,10)
+      % picture environment with the size (dimensions)
+      % 32 length units wide, and 15 units high.
+    \put(2,4){\framebox(5,3){\footnotesize{Emoji}}}
+    \put(8,4){\framebox(5,3){\footnotesize{Stop Words}}}
+    \put(14,4){\framebox(5,3){\footnotesize{Lemmatizing}}}
+    \put(20,4){\framebox(5,3){\footnotesize{Negation}}}
+    \put(26,4){\framebox(5,3){\footnotesize{Clean}}}
+    \put(1,1.5){\framebox(31,8){}}
+    
+    \put(0,5.5){\vector(1,0){2}}
+    \put(7,5.5){\vector(1,0){1}}
+    \put(13,5.5){\vector(1,0){1}}
+    \put(19,5.5){\vector(1,0){1}}
+    \put(25,5.5){\vector(1,0){1}}
+    \put(31,5.5){\vector(1,0){2}}
+    
+\end{picture}
+\caption{Pipeline for the Preprocessing}
+\label{fig:preprocessing}
+\end{figure*}
+    
 
-\subsection{Emoji Tagging???}
+\mysubsection{Emoji Tagging}
+Many reviews are written very informally, meaning different kinds of emoji's are used that express different sentiments.
+Because the goal is to determine the sentiment of each review, emoji's can express valuable information that should be maintained.
+Using the vocabular list and corresponding sentiment score given with the dataset, we were able to extract which emoji's are linked with positive or negative sentiment.
+Each of those Emoji's was finally replaced in the text with \textit{happy\_smiley} or \textit{sad\_smiley}, making it a possible feature in our dataset.
 
-\subsection{Remove Stopwords}
+\mysubsection{Remove Stop Words}
+Natural language contains words that are not adding any value when it is used to train a model.
+Those words are referred to as stopwords because they are the most common words in the language.
+To improve performance, we can remove all stop words. After all they are the most common words in the language and not per se tied to a negative or positive class.
 
-\subsection{Lemmatizing and Stemming}
+\mysubsection{Lemmatizing and Stemming}
+Similar meaning words can occur in multiple ways (\eg, \textit{am} and \textit{is} are different forms of the same word \textit{be}) even though they should be combined together, because they are exchangeable.
+There are two common approaches for this: (1) Stemming and (2) Lemmatizing. 
+We chose to use \textit{Lemmatizing}, because it does a morphological analysis, which will still change the words, but the actual spelling would still stay correct.
+An example from Manning \etal \cite{Manning:2008} shows that a stemmer would replace the following words \textit{operate operating operates} to \textit{oper}, while a lemmatizer would give the correct option \textit{operate}.
 
-\subsection{Negation Handling}
+\mysubsection{Negation Handling}
+In natural language we often make use of negatives and sometimes even double negatives. For example, a sententce like: this movie was not good.
+Could still be classified as positive, because \textit{good} is linked with a positive sentiment. However, the \textit{not} flips the sentiment.
+By using negation handling, we take that into account by adding \textit{\_NEG} to each word that has a \textit{not} in front of it.
+Similarly, if we encounter a double negation we stop adding a \textit{\_NEG} because the original sentiment of the words is left intact.
 
-\subsection{Clean Text}
-
+\mysubsection{Clean Text}
+Finally, to finish the preprocessing the text needs to be cleaned up from punctuation, or other odd symbols that don't carry any meaning in natural language.
