@@ -102,9 +102,9 @@ if __name__ == '__main__':
         ("Logistic", {'solver':'lbfgs'}),
         ("Linear SVM SGD", {'max_iter': 1000, 'tol': 1e-3}),
         ("Logistic SGD", {}),
-        # ("KMeans", {
-        #     'n_clusters': 2, 'init': 'k-means++', 'random_state': 0}),
-        # ("kNN", {}),
+        ("KMeans", {
+            'n_clusters': 2, 'init': 'k-means++', 'random_state': 0}),
+        ("kNN", {}),
         ("MLP", {})
     ]
     #------------------------------------------------------------

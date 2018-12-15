@@ -7,8 +7,14 @@ TF just counts for each token the number of time it appears in the text file.
 However, there are different ways to approach this. 
 Instead of using a single word as a token it is possible to take any number of words that appear sequentially  as a feature, this is called an n-gram.
 
-We explored at different number of n-gram options to determine what gave the best results, see Figure~\ref{fig:ngram}.
-Interestingly a unigram (1-gram) gave the best resutls when using an out-of-the-box logistic regressor. 
+\subsection{Term Frequency- Inverse Document Frequency}
+
+A way to counter the problems TF has we can use Term Frequency-Inverse Document Frequency (TF-IDF).
+Instead of just looking at how frequently a term is in the document we also look at how common it is accross all cocuments.
+In that way, common terms accross all documents become less important features, while terms that are special to a document become more important.
+
+We explored for TF-IDF at different ranges of n-gram options to determine what gave the best results, see Figure~\ref{fig:ngram}.
+Interestingly a unigram (1-gram) gave the best results when using an out-of-the-box logistic regressor. 
 
 \begin{figure*}[ht!]
     \centering
@@ -24,17 +30,20 @@ Interestingly a unigram (1-gram) gave the best resutls when using an out-of-the-
   \label{fig:ngram} 
 \end{figure*}
 
-\subsection{Term Frequency- Inverse Document Frequency}
-
-
 \subsection{Sentiment Analysis}
+The previous two features TF and TF-IDF are focussing on frequency of the words that appear in a document, but it doesn't make any distinction between the words.
+The third feature we are looking at focussing exactly on this problem. Instead of looking at individual words, we can look at each review on its own and determine its sentiment.
+Achieving this is done by applying \textit{Valence Aware Dictionary and Sentiment Reasoner}, also known as VADER, on each review.
+For each review we then get a tuple with four values: positive, compound, neutral, or negative. These features can then be used to train a classifier.
 
 
 \subsection{Comparison}
 
 When the three different set of features are compared we can see clearly that TF-IDF is performing best out of the three, closely followed by TF, and on a distance Sentiment analysis using VADER.
+It is interesting that VADER, did not perform better. It shows that it is very complex to summarize a text down to just four values.
+It still performs considerably better than random, but there is a big gap in performance between TF and VADER.
 
-\begin{table}[h]
+\begin{table}[ht!]
     \centering
     \caption{Results for different features using an out-of-the-box logistic regressor\label{tab:features-comp}}
     \begin{tabular}{ l| S[table-format=1.3] |S[table-format=1.3] |S[table-format=1.3] }
@@ -48,9 +57,13 @@ When the three different set of features are compared we can see clearly that TF
     \end{tabular}
 \end{table}
 
-\mysubsection{Pipeline}
+\subsection{Feature Extraction Pipeline}
+Based on the results that we found for each feature, we present our feature extraction pipeline in Figure~\ref{fig:feature-selection}.
+We chose to use TF-IDF over TF and VADER because of the clearly better performance it gives.
+For ngram-range we chose a range of (1,1), meaning we will only use unigrams.
+Unigrams seemded to give the best performance as can be seen in Figure~\ref{fig:ngram}.
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
     \setlength{\unitlength}{0.14in}
     \centering
     \begin{picture}(20,10)
