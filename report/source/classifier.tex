@@ -1,2 +1,24 @@
-\section{Classifier}
+\section{Classifiers}
 
+\subsection{Recurrent Neural Networks}
+First off we wanted to benchmark our performance with the open source classifiers to gauge the performance improvement we desired to achieve with our preprocessing and the models we built. We used the preprocessing provided by keras as the IMDB dataset was already available within the framework along with preprocesing and ran LSTM RNN model on it. The test accuracy achieved with 15 epochs and batch size of 32 resulted in 0.8066. We then performed LSTM with fixed length reviews encoded as integers and then converted to embedding vectors passed to LSTM layers in recurrent manner leading to AUC of 0.8114 with sigmoid function activation. The parameters to consider were the maximum sequence length identified by the size of the reviews and batch size kept on the lower end (i.e 24 and 32) to reduce the dimensions of the inputs. Our aim then was to achieve similar or better results. Another attempt at LSTM-RNN using Word2vec(published by google that learns a distributed representation of words) for creating the vectors, but the formation of word vectors was extremely slow (dimension of batch size times word sequence length i.e 32 and 300). The underlying problem with this architecture was the time required to run the model which result in abandoning this approach.  
+
+\subsection{K Nearest Neighbours}
+After preprocessing forming the 2-d data points, we use K Nearest Neighbor to gain insights on the closely related reviews from the data set. However it is computationally expensive given the size of the data to compute distances of each point to each point. It grows linearly with more the data.
+
+\subsection{Logistic Regression}
+Based on the chosen number of features we can decide if we use the Primal or Dual Formulation. As we saw in \ref{fig:ngram-f1}, the performance almost doesn't change when we limit the features to 10,000. As a result, we will be using the \textbf{primal} formulation for the classifier, because only when the number of dimensions is larger than the number of training points will it become interesting to use the dual formulation. The solver for logistic regression was set to "lbfgs". This is to include the L2 penalty, since it gives a more stable solution than L1 penalty and just one solution which fits our needs of classification.
+
+\subsection{Random Forest}
+A random forest is an ensembling instilled classifier inculcating number of decision tree classifiers on various sub-samples of the dataset. It uses averaging to improve the predictive accuracy and control over-fitting. We use random forest with bootstrap enabled, maximum features as square root of number of features, and minimum split leaf as 2. The features are randomly permuted after each split. Idea is to attain better results than normal decision tree boundaries. 
+
+\subsection{Multilayer Perceptron}
+The Mutlilayer Perceptron (MLP) is a feedforward neural network. Up to this point we did not try out any neural networks. Only for the sake of performance comparison we trained a MLP as well. By default it has a 1 layer with a 100 nodes, and it uses "relu" as the activation function.
+
+\subsection{Logistic with Stochastic Gradient Descent}
+We trained a Logistic SGD Classifier as opposed to the gradient descent as it is prohibitively expensive computing with the dataset of current size. This is due to the fact that every single data point needs to be processed while Stochastic gradient descent performs as good with even a subset of a dataset of this size and especially if the text data size is as large.
+Similar to Logistic Regression we chose here also to use the primal formulation for the same reason that number of dimensions is smaller than the number of training points.
+
+
+\subsection{Ensembles}
+After perfecting our model parameters for the different classifiers discussed above, we decided to use Ensembling Techniques in order to improve their performance. We used a basic Ensembling method called \textit{Average Weighting}. This technique allows us to assign different Weights to the models defining the importance of each model for prediction. The results shown in Table \ref{tab:evaluation-ensembles} suggests that Ensembling quite significantly improves the performance of the model. We tested different combinations of the best performing (individual) classifiers in the ensembles.

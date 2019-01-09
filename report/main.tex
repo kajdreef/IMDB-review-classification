@@ -2,6 +2,8 @@
 
 \usepackage{graphicx}
 \usepackage{siunitx}
+\usepackage{afterpage}
+
 \input{macros}
 \input{config}
 
@@ -11,7 +13,7 @@
     range-units = brackets,
     group-digits=false,
     round-mode = places,
-    round-precision = 3
+    round-precision = 4
 }
 
 \pagestyle{plain}
@@ -20,7 +22,7 @@
 
 \begin{document}
 \title{IMDB Sentiment Analysis}
-\author{Kaj Dreef}
+\author{Group: Area51\\Kaj Dreef, Rahil Shah, Jamshir Goorabian}
 \date{\today}
 
 \maketitle
@@ -33,6 +35,7 @@
 \input{source/classifier}
 \input{source/evaluation}
 \input{source/conclusion}
+\input{source/distribution}
 
 \bibliographystyle{abbrv}
 \bibliography{main}
